@@ -24,3 +24,5 @@ cd ${APP_HOME}
 sh stop.sh
 
 sh start.sh
+
+exit 0
