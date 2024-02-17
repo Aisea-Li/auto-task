@@ -7,5 +7,5 @@ if [ -f "${PID_FILE}" ]; then
 	pid=`cat ${PID_FILE}`
 	kill -9 ${pid}
 	rm -rf ${PID_FILE}
-	echo "${JAR_NAME} Stoped!"
+	echo "${JAR_NAME} stoped!"
 fi
