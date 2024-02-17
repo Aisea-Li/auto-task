@@ -6,21 +6,21 @@ git pull
 
 mvn clean package -Dmaven.test.skip=true
 
-if [ -f "/app/auto-task/stop.sh" ]
+APP_HOME="/app/auto-task"
+
+if [ ! -d "${APP_HOME}" ]
 then
-    sh /app/auto-task/stop.sh
+   mkdir ${APP_HOME}
 fi
 
-rm -rf /app/auto-task/
+cp ./target/auto-task.jar ${APP_HOME}/auto-task.jar
 
-mkdir /app/auto-task/
+cp ./start.sh ${APP_HOME}/start.sh
 
-cp ./target/auto-task.jar /app/auto-task/auto-task.jar
+cp ./stop.sh ${APP_HOME}/stop.sh
 
-cp ./start.sh /app/auto-task/start.sh
+cd ${APP_HOME}
 
-cp ./stop.sh /app/auto-task/stop.sh
-
-cd /app/auto-task/
+sh stop.sh
 
 sh start.sh
