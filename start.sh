@@ -1,5 +1,7 @@
-PID_FILE="./run.pid"
+#!/bin/bash
+
 JAR_NAME="auto-task.jar"
+PID_FILE="./${JAR_NAME}.pid"
 
 if [ -f "${PID_FILE}" ]
 then

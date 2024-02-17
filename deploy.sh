@@ -1,3 +1,4 @@
+#!/bin/bash
 
 git pull
 
@@ -5,7 +6,7 @@ mvn clean package -Dmaven.test.skip=true
 
 mv ./target/auto-task.jar /app/auto-task/auto-task.jar
 
-mv ./run.sh /app/auto-task/run.sh
+mv ./start.sh /app/auto-task/start.sh
 
 cd /app/auto-task/
 
