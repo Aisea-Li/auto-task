@@ -23,4 +23,4 @@ cp ./stop.sh /app/auto-task/stop.sh
 
 cd /app/auto-task/
 
-sh run.sh
+sh start.sh
