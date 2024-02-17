@@ -79,7 +79,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>auto-apply-mexc-sun-shines</finalName>
+        <finalName>auto-task</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
