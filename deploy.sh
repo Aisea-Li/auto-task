@@ -7,13 +7,14 @@ git pull
 mvn clean package -Dmaven.test.skip=true
 
 APP_HOME="/app/auto-task"
+JAR_NAME="auto-task.jar"
 
 if [ ! -d "${APP_HOME}" ]
 then
    mkdir ${APP_HOME}
 fi
 
-cp ./target/auto-task.jar ${APP_HOME}/auto-task.jar
+cp ./target/${JAR_NAME} ${APP_HOME}/${JAR_NAME}
 
 cp ./start.sh ${APP_HOME}/start.sh
 
