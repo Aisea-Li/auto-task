@@ -14,7 +14,7 @@ then
     fi
 fi
 
-nohup java -jar ${JAR_NAME} > ./log/log.out &
+nohup java -jar ${JAR_NAME} > ./logs/log.out &
 echo $! > ${PID_FILE}
 echo "${JAR_NAME} started"
 
