@@ -4,18 +4,11 @@ mexc:
   asset:
     exclude: btc,eth,mx,usdt
 
-spring:
-  cloud:
-    openfeign:
-      circuitbreaker:
-        enabled: true
-      client:
-        config:
-          default:
-            connect-timeout: 5000
-            read-timeout: 5000
-
-resilience4j.timelimiter:
-  configs:
-    default:
-      timeoutDuration: 5s
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000

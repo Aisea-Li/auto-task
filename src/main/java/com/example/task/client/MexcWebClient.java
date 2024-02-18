@@ -179,6 +179,67 @@ class MexcWebClientFallbackFactory implements FallbackFactory<MexcWebClient> {
     @Override
     public MexcWebClient create(Throwable cause) {
         log.warn("MexcWebClient,request fail,msg:" + cause.getMessage(), cause);
-        return null;
+        return new MexcWebClient() {
+
+            @Override
+            public Response<?> refreshToken() {
+                return null;
+            }
+
+            @Override
+            public Response<List<SunShines>> querySunShinesList() {
+                return null;
+            }
+
+            @Override
+            public Response<List<String>> applySunShinesBatch(String poolId) {
+                return null;
+            }
+
+            @Override
+            public Response<SpotAssetRes> querySpotAsset() {
+                return null;
+            }
+
+            @Override
+            public Response<SmallExchangeQueryRes> querySmallCurrencyExchange() {
+                return null;
+            }
+
+            @Override
+            public Response<SmallExchangeRes> smallCurrencyExchange(String currencyIds, String version) {
+                return null;
+            }
+
+            @Override
+            public Response<KLineRes> queryKLine(String start, String end, String interval, String openPriceMode, String symbol) {
+                return null;
+            }
+
+            @Override
+            public Response<String> placeOrder(PlaceOrderReq req) {
+                return null;
+            }
+
+            @Override
+            public Response<Page<CurrentOrder>> queryCurrentOrders(String currency, String market, String orderTypes, Integer pageNum, Integer pageSize) {
+                return null;
+            }
+
+            @Override
+            public Response<Page<HistoryOrder>> queryHistoryOrders(String states, Long startTime, Long endTime, Integer pageNum, Integer pageSize) {
+                return null;
+            }
+
+            @Override
+            public Response<Order> queryOrderDetail(String orderId, String orderType) {
+                return null;
+            }
+
+            @Override
+            public Response<?> cancelOrder() {
+                return null;
+            }
+        };
     }
 }
