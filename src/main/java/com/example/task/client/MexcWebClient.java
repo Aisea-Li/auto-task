@@ -27,9 +27,8 @@ import java.util.List;
 @Component
 @FeignClient(
         name = "mexcWebClient",
-        url = "${mexc.web.url:https://www.mexc.coxx}",
+        url = "${mexc.web.url:https://www.mexc.co}",
         configuration = {MexcWebClientFeignConfig.class},
-        // fallbackFactory = MexcWebClientFallbackFactory.class
         fallbackFactory = MexcWebClientFallbackFactory.class
 )
 public interface MexcWebClient {
