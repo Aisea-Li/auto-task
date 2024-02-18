@@ -87,7 +87,7 @@ public interface MexcWebClient {
      * @return
      */
     @ResponseBody
-    @GetMapping("/api/assetactivity/jot_currency_exchange/v2/exchange")
+    @PostMapping("/api/assetactivity/jot_currency_exchange/v2/exchange")
     Response<SmallExchangeRes> smallCurrencyExchange(
             @RequestParam("currencyIds") String currencyIds,
             @RequestParam("version") String version
