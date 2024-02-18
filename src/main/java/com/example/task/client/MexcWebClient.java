@@ -99,7 +99,7 @@ public interface MexcWebClient {
      * @return
      */
     @ResponseBody
-    @GetMapping("/api/platform/spot/market/queryKLine")
+    @GetMapping("/api/platform/spot/market/kline")
     Response<KLineRes> queryKLine(
             @RequestParam("start") String start,
             @RequestParam("end") String end,
