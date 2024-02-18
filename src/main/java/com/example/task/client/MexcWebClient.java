@@ -79,7 +79,7 @@ public interface MexcWebClient {
      */
     @ResponseBody
     @GetMapping("/api/assetactivity/jot_currency_exchange/v2")
-    Response<SmallExchangeQueryRes> querySmallExchange();
+    Response<SmallExchangeQueryRes> querySmallCurrencyExchange();
 
     /**
      * 小额兑换执行
@@ -88,7 +88,7 @@ public interface MexcWebClient {
      */
     @ResponseBody
     @GetMapping("/api/assetactivity/jot_currency_exchange/v2/exchange")
-    Response<SmallExchangeRes> smallExchange(
+    Response<SmallExchangeRes> smallCurrencyExchange(
             @RequestParam("currencyIds") String currencyIds,
             @RequestParam("version") String version
     );

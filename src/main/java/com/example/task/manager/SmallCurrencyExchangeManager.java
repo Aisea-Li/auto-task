@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class SmallExchangeManager {
+public class SmallCurrencyExchangeManager {
 
     @Autowired
     private MexcWebClient mexcWebClient;
@@ -26,8 +26,8 @@ public class SmallExchangeManager {
      * 小额兑换
      * 查询+兑换
      */
-    public void smallExchange() {
-        Response<SmallExchangeQueryRes> res = mexcWebClient.querySmallExchange();
+    public void smallCurrencyExchange() {
+        Response<SmallExchangeQueryRes> res = mexcWebClient.querySmallCurrencyExchange();
         if (!ResponseUtils.hasData(res)) {
             return;
         }
@@ -39,7 +39,7 @@ public class SmallExchangeManager {
         }
         // 小额兑换
         String currencyIds = String.join(",", currencyIdList);
-        Response<SmallExchangeRes> response = mexcWebClient.smallExchange(
+        Response<SmallExchangeRes> response = mexcWebClient.smallCurrencyExchange(
                 currencyIds,
                 "V1"
         );

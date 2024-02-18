@@ -8,7 +8,7 @@ import com.example.task.entity.response.KLineRes;
 import com.example.task.entity.response.Response;
 import com.example.task.entity.response.SpotAsset;
 import com.example.task.entity.response.SpotAssetRes;
-import com.example.task.manager.SmallExchangeManager;
+import com.example.task.manager.SmallCurrencyExchangeManager;
 import com.example.task.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,13 +27,13 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class AutoSellSunShinesTask {
+public class AutoSellSmallCurrencyTask {
 
     @Autowired
     private MexcWebClient mexcWebClient;
 
     @Autowired
-    private SmallExchangeManager smallExchangeManager;
+    private SmallCurrencyExchangeManager smallCurrencyExchangeManager;
 
     @Value("${mexc.asset.exclude:}")
     private Set<String> excludeSet;
@@ -123,7 +123,7 @@ public class AutoSellSunShinesTask {
         if (ResponseUtils.isSuccess(placeOrderRes)) {
             log.info("sell success,currency:{}", currency);
             // 卖不完 进行一次小额兑换
-            smallExchangeManager.smallExchange();
+            smallCurrencyExchangeManager.smallCurrencyExchange();
         } else {
             log.warn("sell fail,currency:{},res:{}", currency, placeOrderRes);
         }
