@@ -8,7 +8,7 @@ import com.example.task.entity.response.KLineRes;
 import com.example.task.entity.response.Response;
 import com.example.task.entity.response.SpotAsset;
 import com.example.task.entity.response.SpotAssetRes;
-import com.example.task.manager.SmallCurrencyExchangeManager;
+import com.example.task.manager.SmallCurrencyExchangeService;
 import com.example.task.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,7 +23,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 @Slf4j
 @Component
@@ -33,12 +35,12 @@ public class AutoSellSmallCurrencyTask {
     private MexcWebClient mexcWebClient;
 
     @Autowired
-    private SmallCurrencyExchangeManager smallCurrencyExchangeManager;
+    private SmallCurrencyExchangeService smallCurrencyExchangeService;
 
     @Value("${mexc.asset.exclude:}")
     private Set<String> excludeSet;
 
-    @Scheduled(fixedRate = 30, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 10, timeUnit = TimeUnit.SECONDS)
     public void execute() {
         Response<SpotAssetRes> res = mexcWebClient.querySpotAsset();
         if (!ResponseUtils.hasData(res)) {
@@ -122,8 +124,11 @@ public class AutoSellSmallCurrencyTask {
         Response<String> placeOrderRes = mexcWebClient.placeOrder(req);
         if (ResponseUtils.isSuccess(placeOrderRes)) {
             log.info("sell success,currency:{}", currency);
-            // 卖不完 进行一次小额兑换
-            smallCurrencyExchangeManager.smallCurrencyExchange();
+            // 卖不完 进行一次小额兑换 异步延迟处理等待卖单完成
+            CompletableFuture.runAsync(() -> {
+                LockSupport.parkNanos(TimeUnit.MINUTES.toNanos(2));
+                smallCurrencyExchangeService.smallCurrencyExchange();
+            });
         } else {
             log.warn("sell fail,currency:{},res:{}", currency, placeOrderRes);
         }

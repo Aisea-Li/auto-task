@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class SmallCurrencyExchangeManager {
+public class SmallCurrencyExchangeService {
 
     @Autowired
     private MexcWebClient mexcWebClient;

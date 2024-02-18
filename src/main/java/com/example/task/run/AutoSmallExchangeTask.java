@@ -1,6 +1,6 @@
 package com.example.task.run;
 
-import com.example.task.manager.SmallCurrencyExchangeManager;
+import com.example.task.manager.SmallCurrencyExchangeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,10 +12,10 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class AutoSmallExchangeTask {
     @Autowired
-    private SmallCurrencyExchangeManager smallCurrencyExchangeManager;
+    private SmallCurrencyExchangeService smallCurrencyExchangeService;
 
     @Scheduled(fixedRate = 6, timeUnit = TimeUnit.HOURS)
     public void execute() {
-        smallCurrencyExchangeManager.smallCurrencyExchange();
+        smallCurrencyExchangeService.smallCurrencyExchange();
     }
 }
