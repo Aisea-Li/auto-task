@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class SmallExchangeRes {
 
-    private List<SmallExchangeSuccessItem> successList;
+    private List<String> successList;
 
     private List<SmallExchangeFailedItem> failedList;
 

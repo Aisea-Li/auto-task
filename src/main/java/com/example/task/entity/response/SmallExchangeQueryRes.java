@@ -9,6 +9,6 @@ public class SmallExchangeQueryRes {
 
     private List<SmallExchangeItem> exchangeList;
 
-    private List<SmallExchangeItem> cantExchangeList;
+    private List<SmallExchangeCantItem> cantExchangeList;
 
 }

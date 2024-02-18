@@ -8,6 +8,7 @@ import com.example.task.entity.response.KLineRes;
 import com.example.task.entity.response.Response;
 import com.example.task.entity.response.SpotAsset;
 import com.example.task.entity.response.SpotAssetRes;
+import com.example.task.manager.SmallExchangeManager;
 import com.example.task.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -30,6 +31,9 @@ public class AutoSellSunShinesTask {
 
     @Autowired
     private MexcWebClient mexcWebClient;
+
+    @Autowired
+    private SmallExchangeManager smallExchangeManager;
 
     @Value("${mexc.asset.exclude:}")
     private Set<String> excludeSet;
@@ -64,7 +68,7 @@ public class AutoSellSunShinesTask {
     /**
      * 处理资产
      *
-     * @param spotAsset
+     * @param spotAsset 现货资产
      */
     private void handleSpotAsset(SpotAsset spotAsset) {
         // 查询k线 看是否需要出售
@@ -118,6 +122,8 @@ public class AutoSellSunShinesTask {
         Response<String> placeOrderRes = mexcWebClient.placeOrder(req);
         if (ResponseUtils.isSuccess(placeOrderRes)) {
             log.info("sell success,currency:{}", currency);
+            // 卖不完 进行一次小额兑换
+            smallExchangeManager.smallExchange();
         } else {
             log.warn("sell fail,currency:{},res:{}", currency, placeOrderRes);
         }
