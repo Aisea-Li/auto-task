@@ -40,8 +40,22 @@ public class AutoSellSmallCurrencyTask {
     @Value("${mexc.asset.exclude:}")
     private Set<String> excludeSet;
 
-    @Scheduled(fixedRate = 10, timeUnit = TimeUnit.SECONDS)
+    private final static long MOD_MILLIS_OF_30_MINUTES = TimeUnit.MINUTES.toMillis(30);
+
+    private int count = 0;
+
+    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.SECONDS)
     public void execute() {
+        // 每次30分钟后2分钟一秒执行一次 其他时间10秒执行一次
+        long currentTimeMillis = System.currentTimeMillis();
+        long mod = currentTimeMillis % MOD_MILLIS_OF_30_MINUTES;
+        if (count++ < 9 && mod > TimeUnit.MINUTES.toMillis(2)) {
+            return;
+        }
+        count = 0;
+
+        log.debug("AutoSellSmallCurrencyTask,run");
+
         Response<SpotAssetRes> res = mexcWebClient.querySpotAsset();
         if (!ResponseUtils.hasData(res)) {
             log.warn("query spot asset fail,res:{}", res);

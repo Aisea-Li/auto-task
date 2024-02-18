@@ -35,3 +35,4 @@ build/
 /logs/
 /mvnw
 /mvnw.cmd
+/src/main/resources/logback-test.xml
