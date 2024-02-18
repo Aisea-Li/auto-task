@@ -18,4 +18,14 @@ public class EnumUtils extends org.apache.commons.lang3.EnumUtils {
                     return null;
                 });
     }
+
+    public static <E extends Enum<E>> E getEnumByName(String name, Class<E> clazz) {
+        return SetUtils.emptyIfNull(EnumSet.allOf(clazz)).stream()
+                .filter(item -> name.equals(item.name()))
+                .findFirst()
+                .orElseGet(() -> {
+                    log.error("getEnumByCode,fail,code:{},clazz:{}", name, clazz);
+                    return null;
+                });
+    }
 }

@@ -1,6 +1,8 @@
 mexc:
   web:
     token: ${MEXC_TOKEN}
+  asset:
+    exclude: btc,eth,mx,usdt
 
 spring:
   cloud:
