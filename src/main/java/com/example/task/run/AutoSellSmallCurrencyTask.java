@@ -109,7 +109,7 @@ public class AutoSellSmallCurrencyTask {
         double currentPrice = closePriceList.get(closePriceList.size() - 1);
         if (currentPrice > maxHighPrice * 0.9) {
             // 当前价大于最近30天最高价出售
-            log.info("more than 90% of maxHighPrice,currentPrice:{},maxHighPrice:{}", currentPrice, maxHighPrice);
+            log.debug("more than 90% of maxHighPrice,currentPrice:{},maxHighPrice:{}", currentPrice, maxHighPrice);
             return;
         } else if (currentPrice < minOpenPrice) {
             log.info("price too low,do small currency exchange,currency:{}", currency);
