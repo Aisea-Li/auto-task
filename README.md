@@ -26,4 +26,5 @@ b.默认频率一小时一次;
 二、使用方法  
 1.推荐Linux机器部署;  
 2.Linux服务器需要配置好jdk1.8+maven+git;  
-3.git拉取到Liunx服务器, 执行sh deploy.sh, 服务会部署到/app/auto-task/下并启动执行;  
+3.配置环境变量到Liunx, MEXC_TOKEN=token, token获取web登录mexc控制台查看cookie的u_id字段获取;  
+4.git拉取到Liunx服务器, 执行sh deploy.sh, 服务会部署到/app/auto-task/下并启动执行;  
