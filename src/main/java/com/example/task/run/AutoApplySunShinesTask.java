@@ -25,7 +25,7 @@ public class AutoApplySunShinesTask {
     @Autowired
     private MexcWebClient mexcWebClient;
 
-    @Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedRate = 5, timeUnit = TimeUnit.MINUTES)
     public void execute() {
         Response<List<SunShines>> res = mexcWebClient.querySunShinesList();
         if (!ResponseUtils.hasData(res)) {

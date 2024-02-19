@@ -40,22 +40,8 @@ public class AutoSellSmallCurrencyTask {
     @Value("${mexc.asset.exclude:}")
     private Set<String> excludeSet;
 
-    private final static long MOD_MILLIS_OF_30_MINUTES = TimeUnit.MINUTES.toMillis(30);
-
-    private int count = 0;
-
-    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 5, timeUnit = TimeUnit.SECONDS)
     public void execute() {
-        // 每次30分钟后2分钟一秒执行一次 其他时间10秒执行一次
-        long currentTimeMillis = System.currentTimeMillis();
-        long mod = currentTimeMillis % MOD_MILLIS_OF_30_MINUTES;
-        if (count++ < 9 && mod > TimeUnit.MINUTES.toMillis(2)) {
-            return;
-        }
-        count = 0;
-
-        log.debug("AutoSellSmallCurrencyTask,run");
-
         Response<SpotAssetRes> res = mexcWebClient.querySpotAsset();
         if (!ResponseUtils.hasData(res)) {
             log.warn("query spot asset fail,res:{}", res);
@@ -114,10 +100,20 @@ public class AutoSellSmallCurrencyTask {
         for (Double h : highPriceList) {
             maxHighPrice = Math.max(maxHighPrice, h);
         }
+        List<Double> openPriceList = kLineRes.getO();
+        double minOpenPrice = Double.MAX_VALUE;
+        for (Double o : openPriceList) {
+            minOpenPrice = Math.min(minOpenPrice, o);
+        }
         List<Double> closePriceList = kLineRes.getC();
         double currentPrice = closePriceList.get(closePriceList.size() - 1);
         if (currentPrice > maxHighPrice * 0.9) {
             // 当前价大于最近30天最高价出售
+            log.info("more than 90% of maxHighPrice,currentPrice:{},maxHighPrice:{}", currentPrice, maxHighPrice);
+            return;
+        } else if (currentPrice < minOpenPrice) {
+            log.info("price too low,do small currency exchange,currency:{}", currency);
+            smallCurrencyExchangeService.smallCurrencyExchange();
             return;
         }
         // 售出
