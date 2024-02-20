@@ -56,7 +56,7 @@ public class AutoSellSmallCurrencyTask {
                     if (CollectionUtils.isEmpty(it.getMarkets()) || !it.getMarkets().contains("USDT")) {
                         return false;
                     }
-                    if (Double.parseDouble(it.getUsdtAvailable()) < 5) {
+                    if (Double.parseDouble(it.getUsdtAvailable()) < 0.5) {
                         return false;
                     }
                     if (Double.parseDouble(it.getUsdtTotal()) > 50) {
@@ -107,22 +107,26 @@ public class AutoSellSmallCurrencyTask {
         }
         List<Double> closePriceList = kLineRes.getC();
         double currentPrice = closePriceList.get(closePriceList.size() - 1);
+        double quantity = Double.parseDouble(spotAsset.getAvailable());
+        double totalUsdt = currentPrice * quantity;
+        // 价格有上涨空间 持有
         if (currentPrice > maxHighPrice * 0.9) {
             // 当前价大于最近30天最高价出售
             log.debug("more than 90% of maxHighPrice,currentPrice:{},maxHighPrice:{}", currentPrice, maxHighPrice);
             return;
-        } else if (currentPrice < minOpenPrice) {
+        }
+        // 跌破最低价且总价过低 小额兑换
+        if (currentPrice < minOpenPrice && totalUsdt < 5) {
             log.info("price too low,do small currency exchange,currency:{}", currency);
             smallCurrencyExchangeService.smallCurrencyExchange();
             return;
         }
-        // 售出
-        double quantity = Double.parseDouble(spotAsset.getAvailable());
-        double totalUsdt = currentPrice * quantity;
+        // 总价过低/过高 无法卖出
         if (totalUsdt < 5 || totalUsdt > 50) {
             log.warn("can not sell,total usdt:{}", totalUsdt);
             return;
         }
+        // 售出
         PlaceOrderReq req = PlaceOrderReq.builder()
                 .currency(currency)
                 .market(market)
