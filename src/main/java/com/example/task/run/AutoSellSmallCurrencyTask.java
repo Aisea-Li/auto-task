@@ -115,8 +115,8 @@ public class AutoSellSmallCurrencyTask {
             log.debug("more than 90% of maxHighPrice,currentPrice:{},maxHighPrice:{}", currentPrice, maxHighPrice);
             return;
         }
-        // 跌破最低价且总价过低 小额兑换
-        if (currentPrice < minOpenPrice && totalUsdt < 5) {
+        // 总价小于4/跌破最低价且总价低于5 小额兑换
+        if (totalUsdt < 4 || (currentPrice < minOpenPrice && totalUsdt < 5)) {
             log.info("price too low,do small currency exchange,currency:{}", currency);
             smallCurrencyExchangeService.smallCurrencyExchange();
             return;
