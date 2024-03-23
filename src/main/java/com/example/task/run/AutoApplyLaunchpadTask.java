@@ -42,7 +42,7 @@ public class AutoApplyLaunchpadTask {
             log.debug("no new launchpad data");
             return;
         }
-        log.info("apply,pool id:{}", autoApplyIdList);
+        log.info("apply,auto apply id list:{}", autoApplyIdList);
         LaunchpadBatchApplyReq req = LaunchpadBatchApplyReq.builder()
                 .activityIds(autoApplyIdList)
                 .build();
