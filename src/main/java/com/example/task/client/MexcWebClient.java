@@ -2,9 +2,11 @@ package com.example.task.client;
 
 
 import com.example.task.entity.request.CurrentOrder;
+import com.example.task.entity.request.LaunchpadBatchApplyReq;
 import com.example.task.entity.request.PlaceOrderReq;
 import com.example.task.entity.response.HistoryOrder;
 import com.example.task.entity.response.KLineRes;
+import com.example.task.entity.response.Launchpad;
 import com.example.task.entity.response.Order;
 import com.example.task.entity.response.Page;
 import com.example.task.entity.response.Response;
@@ -36,7 +38,7 @@ public interface MexcWebClient {
     /**
      * token校验续期
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @PostMapping("/ucenter/api/login/validation")
@@ -45,7 +47,7 @@ public interface MexcWebClient {
     /**
      * 查询阳光普照
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/operateactivity/sun_shines/list")
@@ -53,19 +55,36 @@ public interface MexcWebClient {
 
 
     /**
-     * 查询阳光普照
+     * 批量投入阳光普照
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @PostMapping("/api/operateactivity/sun_shines/apply_lock/un_lock_mode/batch")
     Response<List<String>> applySunShinesBatch(@RequestParam("poolId") String poolId);
 
+    /**
+     * 查询launchpad
+     *
+     * @return 返回值
+     */
+    @ResponseBody
+    @GetMapping("/api/operateactivity/launchpad")
+    Response<List<Launchpad>> queryLaunchpadList(@RequestParam("hasJoin") String hasJoin);
+
+    /**
+     * 批量投入launchpad
+     *
+     * @return 返回值
+     */
+    @ResponseBody
+    @PostMapping("/api/operateactivity/launchpad/batch_apply")
+    Response<List<String>> applyLaunchpadBatch(@RequestBody LaunchpadBatchApplyReq req);
 
     /**
      * 查询现货资产
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/platform/asset/api/asset/spot/convert/v2")
@@ -74,7 +93,7 @@ public interface MexcWebClient {
     /**
      * 小额兑换查询
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/assetactivity/jot_currency_exchange/v2")
@@ -83,7 +102,7 @@ public interface MexcWebClient {
     /**
      * 小额兑换执行
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @PostMapping("/api/assetactivity/jot_currency_exchange/v2/exchange")
@@ -95,7 +114,7 @@ public interface MexcWebClient {
     /**
      * k线查询
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/platform/spot/market/kline")
@@ -110,8 +129,8 @@ public interface MexcWebClient {
     /**
      * 下单
      *
-     * @param req
-     * @return
+     * @param req 下单请求参数
+     * @return 返回值
      */
     @ResponseBody
     @PostMapping("/api/platform/spot/order/place")
@@ -121,7 +140,7 @@ public interface MexcWebClient {
     /**
      * 当前订单
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/platform/spot/order/current/orders/v2")
@@ -136,7 +155,7 @@ public interface MexcWebClient {
     /**
      * 历史订单
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/platform/spot/order/history/orders/v2")
@@ -151,7 +170,7 @@ public interface MexcWebClient {
     /**
      * 订单详情
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @GetMapping("/api/platform/spot/order/deal/detail")
@@ -164,7 +183,7 @@ public interface MexcWebClient {
     /**
      * 全部撤单
      *
-     * @return
+     * @return 返回值
      */
     @ResponseBody
     @DeleteMapping("/api/platform/spot/order/cancel/v2")
